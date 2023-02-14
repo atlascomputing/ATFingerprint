@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.nio.ByteBuffer;
 
 import co.atlascomputing.atfingerprint.DummyDevice;
 
@@ -19,6 +23,7 @@ public class SecuGenActivity extends AppCompatActivity {
 
     private DummyDevice dm = null;
     TextView statusTextView = null;
+    ImageView fingerprintImageView = null;
 
 
     @Override
@@ -28,6 +33,7 @@ public class SecuGenActivity extends AppCompatActivity {
         dm = new DummyDevice();
 
         statusTextView = (TextView) findViewById(R.id.textView_status);
+        fingerprintImageView = (ImageView) findViewById(R.id.imageView_fingerprint);
 
         // init
         final Button initBtn = (Button) findViewById(R.id.btn_init);
@@ -58,6 +64,9 @@ public class SecuGenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 byte[] rawData = dm.captureRaw();
+
+                // TODO: get width and height from GetDeviceInfo
+                fingerprintImageView.setImageBitmap(SecuGenActivity.toGrayscale(rawData,258,336));
             }
         });
 
@@ -75,7 +84,20 @@ public class SecuGenActivity extends AppCompatActivity {
         });
 
     }
+    public static Bitmap toGrayscale(byte[] mImageBuffer, int width, int height)
+    {
+        byte[] Bits = new byte[mImageBuffer.length * 4];
+        for (int i = 0; i < mImageBuffer.length; i++) {
+            Bits[i * 4] = Bits[i * 4 + 1] = Bits[i * 4 + 2] = mImageBuffer[i]; // Invert the source bits
+            Bits[i * 4 + 3] = -1;// 0xff, that's the alpha.
+        }
 
+        Bitmap bmpGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        bmpGrayscale.copyPixelsFromBuffer(ByteBuffer.wrap(Bits));
+        return bmpGrayscale;
+    }
+
+    // TODO: find a way to share ACTION_USB_PERMISSION from library
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {

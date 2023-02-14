@@ -79,6 +79,58 @@ public class DummyDevice {
         return null;
     }
 
+    public byte[] captureRaw(long timeout , long quality) {
+
+        SGDeviceInfoParam device_info = new SGDeviceInfoParam();
+        long error = sgfplib.GetDeviceInfo(device_info);
+        if (error == SGFDxErrorCode.SGFDX_ERROR_NONE)
+        {
+            // dimensions for the buffer
+            int imgWidth = device_info.imageWidth;
+            int imgHeight = device_info.imageHeight;
+
+            byte[] buffer = new byte[imgWidth*imgHeight];
+            if(sgfplib.GetImageEx(buffer, timeout,quality) == SGFDxErrorCode.SGFDX_ERROR_NONE)
+            {
+                // process image
+                Log.d("ATFingerprint", "Fingerprint captured successfully!");
+                return buffer;
+            }
+        }
+
+
+        Log.d("ATFingerprint", "Fingerprint capture failed with code: " + error);
+
+        // error comes here
+        return null;
+    }
+
+    public byte[] captureSimple() {
+
+        SGDeviceInfoParam device_info = new SGDeviceInfoParam();
+        long error = sgfplib.GetDeviceInfo(device_info);
+        if (error == SGFDxErrorCode.SGFDX_ERROR_NONE)
+        {
+            // dimensions for the buffer
+            int imgWidth = device_info.imageWidth;
+            int imgHeight = device_info.imageHeight;
+
+            byte[] buffer = new byte[imgWidth*imgHeight];
+            if(sgfplib.GetImage(buffer) == SGFDxErrorCode.SGFDX_ERROR_NONE)
+            {
+                // process image
+                Log.d("ATFingerprint", "Fingerprint captured successfully!");
+                return buffer;
+            }
+        }
+
+        Log.d("ATFingerprint", "Fingerprint capture failed with code: " + error);
+
+        // error comes here
+        return null;
+    }
+
+    // close the device. to reuse the device, openDevice is required, no need for init
     public int closeDevice() {
         long error = sgfplib.CloseDevice();
         if (error == SGFDxErrorCode.SGFDX_ERROR_NONE){
@@ -89,6 +141,7 @@ public class DummyDevice {
         return -1;
     }
 
+    // close and release all library objects, to reuse the device. init will be required
     public int close() {
         long error = sgfplib.Close();
         if (error == SGFDxErrorCode.SGFDX_ERROR_NONE){

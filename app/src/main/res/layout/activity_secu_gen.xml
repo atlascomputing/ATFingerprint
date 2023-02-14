@@ -54,12 +54,12 @@
             android:padding="5dp"
             android:text="Status" />
 
-<!--        <ImageView-->
-<!--            android:id="@+id/imageView1"-->
-<!--            android:layout_width="256dp"-->
-<!--            android:layout_height="360dp"-->
-<!--            android:contentDescription=""-->
-<!--            android:src="" />-->
+        <ImageView
+            android:id="@+id/imageView_fingerprint"
+            android:layout_width="256dp"
+            android:layout_height="360dp"
+            android:contentDescription="scanned image"
+            android:src="@drawable/ic_launcher_background" />
 
     </LinearLayout>
 </LinearLayout>
