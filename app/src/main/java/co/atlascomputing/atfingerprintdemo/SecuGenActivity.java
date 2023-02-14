@@ -66,7 +66,7 @@ public class SecuGenActivity extends AppCompatActivity {
                 byte[] rawData = dm.captureRaw();
 
                 // TODO: get width and height from GetDeviceInfo
-                fingerprintImageView.setImageBitmap(SecuGenActivity.toGrayscale(rawData,258,336));
+                fingerprintImageView.setImageBitmap(SecuGenActivity.toGrayscale(rawData,300,400));
             }
         });
 
