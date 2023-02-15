@@ -63,7 +63,13 @@ public class SecuGenActivity extends AppCompatActivity {
         captureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                byte[] rawData = dm.captureRaw();
+                byte[] rawData = dm.captureImage();
+//                byte[] rawData = dm.captureImageSimple();
+
+                if(rawData == null){
+                    statusTextView.setText("capture failed");
+                    return;
+                }
 
                 // TODO: get width and height from GetDeviceInfo
                 fingerprintImageView.setImageBitmap(SecuGenActivity.toGrayscale(rawData,300,400));

@@ -42,6 +42,12 @@ public class DummyDevice {
     }
 
     public int openDevice(int deviceId) {
+
+        if(sgfplib == null){
+            Log.d("ATFingerprint", "Fingerprint device should be initialized first");
+            return -1;
+        }
+
         long error = sgfplib.OpenDevice(deviceId);
         if (error == SGFDxErrorCode.SGFDX_ERROR_NONE){
             Log.d("ATFingerprint", "Fingerprint device opened successfully!");
@@ -50,7 +56,18 @@ public class DummyDevice {
         return -1;
     }
 
-    public byte[] captureRaw() {
+    public byte[] captureImage() {
+        long timeout = 100000000; // in milliseconds
+        long quality = 50; // 50 good for registration, 40 good for verification
+        return captureImage(timeout,quality);
+    }
+
+    public byte[] captureImage(long timeout , long quality) {
+
+        if(sgfplib == null){
+            Log.d("ATFingerprint", "Fingerprint device should be initialized and opened first");
+            return null;
+        }
 
         SGDeviceInfoParam device_info = new SGDeviceInfoParam();
         long error = sgfplib.GetDeviceInfo(device_info);
@@ -61,10 +78,10 @@ public class DummyDevice {
             int imgHeight = device_info.imageHeight;
 
             byte[] buffer = new byte[imgWidth*imgHeight];
-            long timeout = 10000;
-            long quality = 50;
 
-            if(sgfplib.GetImageEx(buffer, timeout,quality) == SGFDxErrorCode.SGFDX_ERROR_NONE)
+            sgfplib.SetLedOn(true);
+            error = sgfplib.GetImageEx(buffer, timeout, quality);
+            if(error == SGFDxErrorCode.SGFDX_ERROR_NONE)
             {
                 // process image
                 Log.d("ATFingerprint", "Fingerprint captured successfully!");
@@ -79,33 +96,13 @@ public class DummyDevice {
         return null;
     }
 
-    public byte[] captureRaw(long timeout , long quality) {
+    // check for quality is not done
+    public byte[] captureImageSimple() {
 
-        SGDeviceInfoParam device_info = new SGDeviceInfoParam();
-        long error = sgfplib.GetDeviceInfo(device_info);
-        if (error == SGFDxErrorCode.SGFDX_ERROR_NONE)
-        {
-            // dimensions for the buffer
-            int imgWidth = device_info.imageWidth;
-            int imgHeight = device_info.imageHeight;
-
-            byte[] buffer = new byte[imgWidth*imgHeight];
-            if(sgfplib.GetImageEx(buffer, timeout,quality) == SGFDxErrorCode.SGFDX_ERROR_NONE)
-            {
-                // process image
-                Log.d("ATFingerprint", "Fingerprint captured successfully!");
-                return buffer;
-            }
+        if(sgfplib == null){
+            Log.d("ATFingerprint", "Fingerprint device should be initialized and opened first");
+            return null;
         }
-
-
-        Log.d("ATFingerprint", "Fingerprint capture failed with code: " + error);
-
-        // error comes here
-        return null;
-    }
-
-    public byte[] captureSimple() {
 
         SGDeviceInfoParam device_info = new SGDeviceInfoParam();
         long error = sgfplib.GetDeviceInfo(device_info);
@@ -132,6 +129,12 @@ public class DummyDevice {
 
     // close the device. to reuse the device, openDevice is required, no need for init
     public int closeDevice() {
+
+        if (sgfplib == null){
+            Log.d("ATFingerprint", "Attempt  to close un initialized device");
+            return -1;
+        }
+
         long error = sgfplib.CloseDevice();
         if (error == SGFDxErrorCode.SGFDX_ERROR_NONE){
             Log.d("ATFingerprint", "Fingerprint closeDevice successfully!");
@@ -143,6 +146,12 @@ public class DummyDevice {
 
     // close and release all library objects, to reuse the device. init will be required
     public int close() {
+
+        if (sgfplib == null){
+            Log.d("ATFingerprint", "Attempt  to close un initialized lib");
+            return -1;
+        }
+
         long error = sgfplib.Close();
         if (error == SGFDxErrorCode.SGFDX_ERROR_NONE){
             Log.d("ATFingerprint", "Fingerprint closed successfully!");
