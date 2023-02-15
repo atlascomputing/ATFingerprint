@@ -1,4 +1,4 @@
-package co.atlascomputing.atfingerprint;
+package co.atlascomputing.atfingerprint.wrappers;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -13,7 +13,7 @@ import SecuGen.FDxSDKPro.SGDeviceInfoParam;
 import SecuGen.FDxSDKPro.SGFDxDeviceName;
 import SecuGen.FDxSDKPro.SGFDxErrorCode;
 
-public class DummyDevice {
+public class SecuGenDeviceWrapper {
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
     private JSGFPLib sgfplib;
 
