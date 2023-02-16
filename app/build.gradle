@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "co.atlascomputing.atfingerprintdemo"
-        minSdk 18
+        minSdk 21
         targetSdk 33
         versionCode 1
         versionName "1.0"

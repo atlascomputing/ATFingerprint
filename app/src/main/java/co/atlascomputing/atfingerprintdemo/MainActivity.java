@@ -26,6 +26,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        final Button mantraMorphinBtn = (Button) findViewById(R.id.btn_mantra_morfin);
+        mantraMorphinBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MantraMorfinAuthActivity.class));
+            }
+        });
+
 //        DummyDevice dm = new DummyDevice();
 //        dm.init(this, (UsbManager)getSystemService(Context.USB_SERVICE));
 //        dm.openDevice(0);

@@ -66,12 +66,12 @@ public class SecuGenDeviceWrapper {
     }
 
     public byte[] captureImage() {
-        long timeout = 100000000; // in milliseconds
-        long quality = 50; // 50 good for registration, 40 good for verification
+        int timeout = 100000000; // in milliseconds
+        int quality = 50; // 50 good for registration, 40 good for verification
         return captureImage(timeout, quality);
     }
 
-    public byte[] captureImage(long timeout, long quality) {
+    public byte[] captureImage(int timeout, int minQuality) {
 
         if (sgfplib == null) {
             Log.d("ATFingerprint", "Fingerprint device should be initialized and opened first");
@@ -88,7 +88,7 @@ public class SecuGenDeviceWrapper {
             byte[] buffer = new byte[imgWidth * imgHeight];
 
             sgfplib.SetLedOn(true);
-            error = sgfplib.GetImageEx(buffer, timeout, quality);
+            error = sgfplib.GetImageEx(buffer, timeout, minQuality);
             if (error == SGFDxErrorCode.SGFDX_ERROR_NONE) {
                 // process image
                 Log.d("ATFingerprint", "Fingerprint captured successfully!");

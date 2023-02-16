@@ -40,8 +40,23 @@ public class SecuGenActivity extends AppCompatActivity {
         initBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int success = dm.init(SecuGenActivity.this, (UsbManager)getSystemService(Context.USB_SERVICE));
-                statusTextView.setText(success == 0 ? "Init success" : "Init failed");
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int success = dm.init(SecuGenActivity.this, (UsbManager) getSystemService(Context.USB_SERVICE));
+
+                        // update UI
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                statusTextView.setText(success == 0 ? "Init success" : "Init failed");
+                            }
+                        });
+                    }
+                }).start();
+
+
             }
         });
 
@@ -51,8 +66,22 @@ public class SecuGenActivity extends AppCompatActivity {
         openBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int success = dm.openDevice(0);
-                statusTextView.setText(success == 0 ? "openDevice success" : "openDevice failed");
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int success = dm.openDevice(0);
+
+                        // update UI
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                statusTextView.setText(success == 0 ? "openDevice success" : "openDevice failed");
+                            }
+                        });
+                    }
+                }).start();
+
 
             }
         });
@@ -63,16 +92,30 @@ public class SecuGenActivity extends AppCompatActivity {
         captureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                byte[] rawData = dm.captureImage();
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        byte[] rawData = dm.captureImage();
 //                byte[] rawData = dm.captureImageSimple();
+                        // update UI
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (rawData == null) {
+                                    statusTextView.setText("capture failed");
+                                    return;
+                                }
+                                statusTextView.setText("capture success");
 
-                if(rawData == null){
-                    statusTextView.setText("capture failed");
-                    return;
-                }
+                                // TODO: get width and height from GetDeviceInfo
+                                fingerprintImageView.setImageBitmap(SecuGenActivity.toGrayscale(rawData, 300, 400));
+                            }
+                        });
+                    }
+                }).start();
 
-                // TODO: get width and height from GetDeviceInfo
-                fingerprintImageView.setImageBitmap(SecuGenActivity.toGrayscale(rawData,300,400));
+
             }
         });
 
@@ -90,8 +133,8 @@ public class SecuGenActivity extends AppCompatActivity {
         });
 
     }
-    public static Bitmap toGrayscale(byte[] mImageBuffer, int width, int height)
-    {
+
+    public static Bitmap toGrayscale(byte[] mImageBuffer, int width, int height) {
         byte[] Bits = new byte[mImageBuffer.length * 4];
         for (int i = 0; i < mImageBuffer.length; i++) {
             Bits[i * 4] = Bits[i * 4 + 1] = Bits[i * 4 + 2] = mImageBuffer[i]; // Invert the source bits
@@ -111,18 +154,16 @@ public class SecuGenActivity extends AppCompatActivity {
             //Log.d(TAG,"Enter mUsbReceiver.onReceive()");
             if (ACTION_USB_PERMISSION.equals(action)) {
                 synchronized (this) {
-                    UsbDevice device = (UsbDevice)intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+                    UsbDevice device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
                     if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
-                        if(device != null){
+                        if (device != null) {
                             //DEBUG Log.d(TAG, "Vendor ID : " + device.getVendorId() + "\n");
                             //DEBUG Log.d(TAG, "Product ID: " + device.getProductId() + "\n");
-                            Log.d("AT","USB BroadcastReceiver VID : " + device.getVendorId() + "\n");
-                            Log.d("AT","USB BroadcastReceiver PID: " + device.getProductId() + "\n");
-                        }
-                        else
+                            Log.d("AT", "USB BroadcastReceiver VID : " + device.getVendorId() + "\n");
+                            Log.d("AT", "USB BroadcastReceiver PID: " + device.getProductId() + "\n");
+                        } else
                             Log.e("AT", "mUsbReceiver.onReceive() Device is null");
-                    }
-                    else
+                    } else
                         Log.e("AT", "mUsbReceiver.onReceive() permission denied for device " + device);
                 }
             }
