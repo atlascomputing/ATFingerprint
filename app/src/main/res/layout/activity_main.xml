@@ -25,6 +25,13 @@
             android:layout_height="wrap_content"
             android:text="Mantra Morfin" />
 
+
+        <Button
+            android:id="@+id/btn_mantra_mfs100"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mantra MFS100" />
+
         <Button
             android:id="@+id/btn_morpho"
             android:layout_width="match_parent"

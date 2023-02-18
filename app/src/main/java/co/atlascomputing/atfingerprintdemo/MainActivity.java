@@ -34,6 +34,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        final Button mantraMfs100Btn = (Button) findViewById(R.id.btn_mantra_mfs100);
+        mantraMfs100Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MantraMFS100Activity.class));
+            }
+        });
+
 //        DummyDevice dm = new DummyDevice();
 //        dm.init(this, (UsbManager)getSystemService(Context.USB_SERVICE));
 //        dm.openDevice(0);
