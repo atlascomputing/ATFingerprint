@@ -12,6 +12,9 @@
         android:theme="@style/Theme.ATFingerprintDemo"
         tools:targetApi="31">
         <activity
+            android:name=".MantraMIDAuthActivity"
+            android:exported="false" />
+        <activity
             android:name=".MantraMFS100Activity"
             android:exported="false" />
         <activity

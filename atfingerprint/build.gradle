@@ -32,8 +32,11 @@ dependencies {
     implementation files('libs/AlCamera.jar')
     implementation files('libs/FDxSDKProFDAndroid.jar')
 
-    // Mantra MorfinAuth
+    // Mantra MorfinAuth (MFS500, MARC10, MELO31)
     implementation files('libs/MorfinAuth.jar')
+
+    // Mantra MIDAuth (MFS500, MFS100 V2, MAPRO CX, MAPRO OX)
+    implementation files('libs/MIDFinger_Auth.jar')
 
     // Mantra MFS100 only
     implementation files('libs/mantra.mfs100.jar')
