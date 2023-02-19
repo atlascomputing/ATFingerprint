@@ -41,6 +41,12 @@ dependencies {
     // Mantra MFS100 only
     implementation files('libs/mantra.mfs100.jar')
 
+    // MorphoSmart
+    implementation files('libs/MorphoSmart_SDK_6.40.0.0.jar')
+    implementation files('libs/MSO_Secu.jar')
+    implementation files('libs/MsoPipeLib.jar')
+
+
 
 //    implementation 'androidx.appcompat:appcompat:1.4.1'
 //    implementation 'com.google.android.material:material:1.5.0'
