@@ -8,8 +8,10 @@ import co.atlascomputing.atfingerprint.dto.DeviceInfo;
 public interface GenericUsbDevice {
 
 
-    public String getManufacturer();
-    public String[] getSupporedDevices();
+//    public String getManufacturer();
+//    public String[] getSupporedDevices();
+
+    public boolean isSupportedDevice(int vendorId, int productId);
 
     // initialize device, and get device information, like imgWidth, imgHeight, dpi etc
     // if usb permission not given, it should be requested on this method

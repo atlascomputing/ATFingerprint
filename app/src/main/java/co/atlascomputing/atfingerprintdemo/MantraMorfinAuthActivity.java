@@ -77,7 +77,33 @@ public class MantraMorfinAuthActivity extends AppCompatActivity {
                                 }
 
                                 // TODO: get width and height from GetDeviceInfo, 296,354
-                                fingerprintImageView.setImageBitmap(SecuGenActivity.toGrayscale(rawData, 296,354));
+                                fingerprintImageView.setImageBitmap(SecuGenActivity.toGrayscale(rawData, 296, 354));
+                            }
+                        });
+                    }
+                }).start();
+
+
+            }
+        });
+
+
+        // close
+        final Button closeBtn = (Button) findViewById(R.id.btn_close);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int success = dm.close();
+
+                        // update UI
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                statusTextView.setText(success == 0 ? "Close success" : "Close failed");
                             }
                         });
                     }

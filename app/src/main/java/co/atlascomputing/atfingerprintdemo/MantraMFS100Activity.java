@@ -75,7 +75,32 @@ public class MantraMFS100Activity extends AppCompatActivity {
                                 }
 
                                 // TODO: get width and height from GetDeviceInfo, 316,354
-                                fingerprintImageView.setImageBitmap(SecuGenActivity.toGrayscale(rawData, 316,354));
+                                fingerprintImageView.setImageBitmap(SecuGenActivity.toGrayscale(rawData, 316, 354));
+                            }
+                        });
+                    }
+                }).start();
+
+
+            }
+        });
+
+        // close
+        final Button closeBtn = (Button) findViewById(R.id.btn_close);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int success = dm.close();
+
+                        // update UI
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                statusTextView.setText(success == 0 ? "Close success" : "Close failed");
                             }
                         });
                     }

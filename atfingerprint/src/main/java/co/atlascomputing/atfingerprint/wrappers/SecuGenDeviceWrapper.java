@@ -166,4 +166,14 @@ public class SecuGenDeviceWrapper {
         Log.d("ATFingerprint", "Fingerprint close failed with code: " + error);
         return -1;
     }
+
+    public static boolean isSupportedDevice(int vendorId, int productId) {
+
+        if (productId == 4096 || productId == 8192 || productId == 8704 || productId == 8890 || productId == 8705 || productId == 8961 || productId == 8707 || productId == 8768 || productId == 8736 || productId == 9056 || productId == 9232 || productId == 9472) {
+            return true;
+        }
+        return false;
+    }
+
+
 }

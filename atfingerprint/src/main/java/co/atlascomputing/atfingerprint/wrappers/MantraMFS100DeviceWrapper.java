@@ -119,6 +119,15 @@ public class MantraMFS100DeviceWrapper {
         return -1;
     }
 
+    public static boolean isSupportedDevice(int vendorId, int productId) {
+
+        if ((vendorId == 1204 || vendorId == 11279) && (productId == 34323 || productId == 4101 || productId == 4102)) {
+            return true;
+        }
+
+        return false;
+    }
+
     private class MFS100EventHandler implements MFS100Event {
 
         @Override

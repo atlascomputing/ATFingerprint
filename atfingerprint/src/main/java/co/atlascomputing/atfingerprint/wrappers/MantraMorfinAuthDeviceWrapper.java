@@ -109,6 +109,26 @@ public class MantraMorfinAuthDeviceWrapper {
         return -1;
     }
 
+    public static boolean isSupportedDevice(int vendorId, int productId) {
+        if (vendorId != 11279 || productId != 4352 && productId != 4619 && productId != 4621) {
+            return false;
+        } else {
+
+//            switch (productId) {
+//                case 4352:
+//                    PRODUCT_NAME = "MFS500";
+//                    break;
+//                case 4619:
+//                    PRODUCT_NAME = "MELO31";
+//                    break;
+//                case 4621:
+//                    PRODUCT_NAME = "MARC10";
+//            }
+            return true;
+        }
+    }
+
+
 //    @Override
 //    public void OnDeviceDetection(String s, DeviceDetection deviceDetection) {
 //
