@@ -12,6 +12,12 @@
         android:theme="@style/Theme.ATFingerprintDemo"
         tools:targetApi="31">
         <activity
+            android:name=".AutoDetectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MorphoSmartActivity"
+            android:exported="false" />
+        <activity
             android:name=".MantraMIDAuthActivity"
             android:exported="false" />
         <activity

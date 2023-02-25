@@ -54,5 +54,22 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        final Button morphoBtn = (Button) findViewById(R.id.btn_morpho);
+        morphoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MorphoSmartActivity.class));
+            }
+        });
+
+
+        final Button autoDetectBtn = (Button) findViewById(R.id.btn_auto_detect);
+        autoDetectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AutoDetectActivity.class));
+            }
+        });
+
     }
 }

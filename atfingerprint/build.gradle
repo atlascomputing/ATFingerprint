@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         minSdk 21 //Mantra MorfinAuth requires min 21
-        targetSdk 33
+        targetSdk 30 // Morpho smart, pendingIntent issue, downgraded from 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -46,6 +46,8 @@ dependencies {
     implementation files('libs/MSO_Secu.jar')
     implementation files('libs/MsoPipeLib.jar')
 
+    //TBDK07 - chinese
+    implementation files('libs/fplib-reader-v3.jar')
 
 
 //    implementation 'androidx.appcompat:appcompat:1.4.1'

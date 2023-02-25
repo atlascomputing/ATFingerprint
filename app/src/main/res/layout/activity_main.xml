@@ -43,6 +43,12 @@
             android:layout_height="wrap_content"
             android:text="Morpho" />
 
+        <Button
+            android:id="@+id/btn_auto_detect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Auto Detect" />
+
     </LinearLayout>
 
 
