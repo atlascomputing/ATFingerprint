@@ -8,10 +8,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import co.atlascomputing.atfingerprint.wrappers.MantraMIDAuthDeviceWrapper;
+import co.atlascomputing.atfingerprint.wrappers.MantraMIDAuthScannerWrapper;
 
 public class MantraMIDAuthActivity extends AppCompatActivity {
-    private MantraMIDAuthDeviceWrapper dm = null;
+    private MantraMIDAuthScannerWrapper dm = null;
     TextView statusTextView = null;
     ImageView fingerprintImageView = null;
     @Override
@@ -19,7 +19,7 @@ public class MantraMIDAuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mantra_midauth);
 
-        dm = new MantraMIDAuthDeviceWrapper(getApplicationContext());
+        dm = new MantraMIDAuthScannerWrapper(getApplicationContext());
 
         statusTextView = (TextView) findViewById(R.id.textView_status);
         fingerprintImageView = (ImageView) findViewById(R.id.imageView_fingerprint);

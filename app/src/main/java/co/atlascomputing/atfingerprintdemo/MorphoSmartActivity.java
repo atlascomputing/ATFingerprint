@@ -11,10 +11,10 @@ import android.widget.TextView;
 import java.util.Observable;
 import java.util.Observer;
 
-import co.atlascomputing.atfingerprint.wrappers.MorphoSmartDeviceWrapper;
+import co.atlascomputing.atfingerprint.wrappers.MorphoSmartScannerWrapper;
 
 public class MorphoSmartActivity extends AppCompatActivity implements Observer {
-    private MorphoSmartDeviceWrapper dm = null;
+    private MorphoSmartScannerWrapper dm = null;
     TextView statusTextView = null;
     ImageView fingerprintImageView = null;
     @Override
@@ -23,7 +23,7 @@ public class MorphoSmartActivity extends AppCompatActivity implements Observer {
         setContentView(R.layout.activity_morpho_smart);
 
 
-        dm = new MorphoSmartDeviceWrapper(getApplicationContext());
+        dm = new MorphoSmartScannerWrapper(getApplicationContext());
 
         statusTextView = (TextView) findViewById(R.id.textView_status);
         fingerprintImageView = (ImageView) findViewById(R.id.imageView_fingerprint);

@@ -1,19 +1,16 @@
 package co.atlascomputing.atfingerprint.interfaces;
 
-import android.content.Context;
-import android.hardware.usb.UsbManager;
-
 import co.atlascomputing.atfingerprint.dto.DeviceInfo;
 import co.atlascomputing.atfingerprint.dto.DeviceModel;
 
-public interface GenericUsbDevice {
+public interface GenericUsbScanner {
 
 
 //    public String getManufacturer();
 //    public String[] getSupporedDevices();
 
 //    public boolean isSupportedDevice(int vendorId, int productId);
-    public boolean  isSupportedDevice(int vendorId, int productId, String productName, String manufacturerName);
+    public boolean isSupportedScanner(int vendorId, int productId, String productName, String manufacturerName);
 
     // initialize device, and get device information, like imgWidth, imgHeight, dpi etc
     // if usb permission not given, it should be requested on this method

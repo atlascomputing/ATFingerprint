@@ -1,42 +1,34 @@
 package co.atlascomputing.atfingerprint.wrappers;
 
 import android.content.Context;
-import android.util.Base64;
 import android.util.Log;
 
-import com.mantra.morfinauth.DeviceInfo;
-import com.mantra.morfinauth.MorfinAuth;
-import com.mantra.morfinauth.MorfinAuth_Callback;
-import com.mantra.morfinauth.enums.DeviceDetection;
-import com.mantra.morfinauth.enums.DeviceModel;
-import com.mantra.morfinauth.enums.ImageFormat;
+import com.mantra.midfingerauth.DeviceInfo;
+import com.mantra.midfingerauth.MIDFingerAuth;
+import com.mantra.midfingerauth.enums.DeviceModel;
+import com.mantra.midfingerauth.enums.ImageFormat;
 
-public class MantraMorfinAuthDeviceWrapper {
-    private MorfinAuth morfinAuth;
+public class MantraMIDAuthScannerWrapper {
+    private MIDFingerAuth midFingerAuth;
     DeviceInfo deviceInfo;
 
     private final Context context;
 
-    public MantraMorfinAuthDeviceWrapper(Context applicationContext) {
+    public MantraMIDAuthScannerWrapper(Context applicationContext) {
         context = applicationContext;
 
-        // init MIDAuth
-        morfinAuth = new MorfinAuth(context, null);
 
     }
 
-    public int init(byte[] clientKey) {
+    public int init() {
 
-        deviceInfo = new com.mantra.morfinauth.DeviceInfo();
+        // init MIDAuth
+        midFingerAuth = new MIDFingerAuth(context, null);
+
+        deviceInfo = new com.mantra.midfingerauth.DeviceInfo();
         int error = -1;
-        if (clientKey == null || clientKey.length == 0) {
-            Log.d("AT", "init no key");
-            error = morfinAuth.Init(DeviceModel.MFS500, deviceInfo);
-        } else {
-            Log.d("AT", "init with key");
-            // clientKey is a base64 encoded string
-            error = morfinAuth.Init(DeviceModel.MFS500, Base64.encodeToString(clientKey, 0), deviceInfo);
-        }
+        Log.d("AT", "init no key");
+        error = midFingerAuth.Init(DeviceModel.MFS500, deviceInfo); // NO option to init with clientKey
 
         Log.d("AT", "init response: " + error);
 
@@ -49,7 +41,7 @@ public class MantraMorfinAuthDeviceWrapper {
     }
 
     public byte[] captureImage(int timeout, int minQuality) {
-        if (morfinAuth == null) {
+        if (midFingerAuth == null) {
             Log.d("ATFingerprint", "Fingerprint device should be initialized first");
             return null;
         }
@@ -57,14 +49,14 @@ public class MantraMorfinAuthDeviceWrapper {
         int qty[] = new int[1];
         int nfiq[] = new int[1];
 
-        int error = morfinAuth.AutoCapture(minQuality, timeout, qty, nfiq);
+        int error = midFingerAuth.AutoCapture(minQuality, timeout, qty, nfiq);
 
         Log.d("AT", "AutoCapture response: " + error);
-        Log.d("AT", "AutoCapture response: QUALITY: " + qty + " NFIQ: " + nfiq);
+        Log.d("AT", "AutoCapture response: QUALITY: " + qty[0] + " NFIQ: " + nfiq[0]);
 
         //success
         if (error == 0) {
-            morfinAuth.StopCapture();
+            midFingerAuth.StopCapture();
 //            byte[] image = null;
 //            int[] imageLen = null;
 ////            morfinAuth.GetImage(image, imageLen, 0, ImageFormat.WSQ);
@@ -75,7 +67,7 @@ public class MantraMorfinAuthDeviceWrapper {
             int Size = deviceInfo.Width * deviceInfo.Height + 1111;
             int[] iSize = new int[Size];
             byte[] bImage1 = new byte[Size];
-            int ret = morfinAuth.GetImage(bImage1, iSize, 1, ImageFormat.RAW);
+            int ret = midFingerAuth.GetImage(bImage1, iSize, 1, ImageFormat.RAW);
             byte[] bImage = new byte[iSize[0]];
             System.arraycopy(bImage1, 0, bImage, 0, iSize[0]);
             return bImage;
@@ -86,12 +78,12 @@ public class MantraMorfinAuthDeviceWrapper {
     }
 
     public int closeDevice() {
-        if (morfinAuth == null) {
+        if (midFingerAuth == null) {
             Log.d("ATFingerprint", "Attempt to close un-initialized device");
             return -1;
         }
 
-        int error = morfinAuth.Uninit();
+        int error = midFingerAuth.Uninit();
 
         //success
         if (error == 0) {
@@ -102,13 +94,13 @@ public class MantraMorfinAuthDeviceWrapper {
     }
 
     public int close() {
-        if (morfinAuth == null) {
+        if (midFingerAuth == null) {
             Log.d("ATFingerprint", "Attempt to close un-initialized device");
             return -1;
         }
 
-        int error = morfinAuth.Uninit();
-        morfinAuth.Dispose();
+        int error = midFingerAuth.Uninit();
+        midFingerAuth.Dispose();
 
         //success
         if (error == 0) {
@@ -118,23 +110,26 @@ public class MantraMorfinAuthDeviceWrapper {
         return -1;
     }
 
-    public static boolean isSupportedDevice(int vendorId, int productId) {
-        if (vendorId != 11279 || productId != 4352 && productId != 4619 && productId != 4621) {
-            return false;
-        } else {
+    public static boolean isSupportedScanner(int vendorId, int productId) {
+
+        if (vendorId == 11279 && (productId == 4352 || productId == 4355 || productId == 4610 || productId == 4611)) {
 
 //            switch (productId) {
 //                case 4352:
-//                    PRODUCT_NAME = "MFS500";
-//                    break;
-//                case 4619:
-//                    PRODUCT_NAME = "MELO31";
-//                    break;
-//                case 4621:
-//                    PRODUCT_NAME = "MARC10";
+//                    return DeviceModel.MFS500;
+//                case 4355:
+//                    return DeviceModel.MFS100V2;
+//                case 4610:
+//                    return DeviceModel.MAPRO_CX;
+//                case 4611:
+//                    return DeviceModel.MAPRO_OX;
+//                default:
+//                    return null;
 //            }
             return true;
         }
+        return false;
+
     }
 
 

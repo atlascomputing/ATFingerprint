@@ -117,7 +117,7 @@ public class AutoDetectActivity extends AppCompatActivity {
                     connectedDeviceTextView.setText("ATTACHED: " + device.getProductName());
 
                     // check supported device then request permission
-                    if (!fingerprintLib.isSupportedDevice(device.getVendorId(), device.getProductId(), device.getProductName(), device.getManufacturerName())) {
+                    if (!fingerprintLib.isSupportedScanner(device.getVendorId(), device.getProductId(), device.getProductName(), device.getManufacturerName())) {
                         connectedDeviceTextView.setText("DEVICE NOT SUPPORTED: " + device.getProductName());
                         Log.d("AT", "DEVICE NOT SUPPORTED: " + device.getProductName());
                         return;
@@ -201,7 +201,7 @@ public class AutoDetectActivity extends AppCompatActivity {
             while (var3.hasNext()) {
                 UsbDevice device = (UsbDevice) var3.next();
 
-                if (fingerprintLib.isSupportedDevice(device.getVendorId(), device.getProductId(), device.getProductName(), device.getManufacturerName())) {
+                if (fingerprintLib.isSupportedScanner(device.getVendorId(), device.getProductId(), device.getProductName(), device.getManufacturerName())) {
 
                     // request permission
                     if (!usbManager.hasPermission(device)) {

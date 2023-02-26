@@ -10,7 +10,7 @@ import com.mantra.mfs100.MFS100Event;
 //import com.mantra.mfs100.enums.DeviceModel;
 //import com.mantra.mfs100.enums.ImageFormat;
 
-public class MantraMFS100DeviceWrapper {
+public class MantraMFS100ScannerWrapper {
     private MFS100 mfs100;
     DeviceInfo deviceInfo;
 
@@ -18,18 +18,18 @@ public class MantraMFS100DeviceWrapper {
 
     private final Context context;
 
-    public MantraMFS100DeviceWrapper(Context applicationContext) {
+    public MantraMFS100ScannerWrapper(Context applicationContext) {
         context = applicationContext;
 
 
-        // init MFS100
-        eventHandler = new MFS100EventHandler();
-        mfs100 = new MFS100(eventHandler);
-        mfs100.SetApplicationContext(context);
     }
 
     // Init for mfs100 is using callbacks, call init on OnDeviceAttached,
     public int init(byte[] clientKey) {
+        // init MFS100
+        eventHandler = new MFS100EventHandler();
+        mfs100 = new MFS100(eventHandler);
+        mfs100.SetApplicationContext(context);
 
         int error = -1;
         if (clientKey == null || clientKey.length == 0) {
@@ -123,7 +123,7 @@ public class MantraMFS100DeviceWrapper {
         return -1;
     }
 
-    public static boolean isSupportedDevice(int vendorId, int productId) {
+    public static boolean isSupportedScanner(int vendorId, int productId) {
 
         if ((vendorId == 1204 || vendorId == 11279) && (productId == 34323 || productId == 4101 || productId == 4102)) {
             return true;

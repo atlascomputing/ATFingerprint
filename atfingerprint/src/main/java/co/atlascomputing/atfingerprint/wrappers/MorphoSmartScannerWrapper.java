@@ -1,7 +1,6 @@
 package co.atlascomputing.atfingerprint.wrappers;
 
 import android.content.Context;
-import android.os.Looper;
 import android.util.Log;
 
 import com.morpho.android.usb.USBManager;
@@ -14,16 +13,12 @@ import com.morpho.morphosmart.sdk.LatentDetection;
 import com.morpho.morphosmart.sdk.MorphoDevice;
 import com.morpho.morphosmart.sdk.MorphoImage;
 import com.morpho.morphosmart.sdk.MorphoImageHeader;
-import com.morpho.morphosmart.sdk.MorphoWakeUpMode;
 import com.morpho.morphosmart.sdk.StrategyAcquisitionMode;
-import com.morpho.morphosmart.sdk.TemplateList;
 
 import java.util.Objects;
 import java.util.Observer;
 
-import co.atlascomputing.atfingerprint.dto.DeviceModel;
-
-public class MorphoSmartDeviceWrapper {
+public class MorphoSmartScannerWrapper {
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
     private static final String TAG = "AT";
     private MorphoDevice morphoDevice;
@@ -31,7 +26,7 @@ public class MorphoSmartDeviceWrapper {
 
     private final Context context;
 
-    public MorphoSmartDeviceWrapper(Context applicationContext) {
+    public MorphoSmartScannerWrapper(Context applicationContext) {
         context = applicationContext;
 
 
@@ -149,7 +144,7 @@ public class MorphoSmartDeviceWrapper {
         return -1;
     }
 
-    public static boolean isSupportedDevice(int vendorId, int productId, String productName, String manufacturerName) {
+    public static boolean isSupportedScanner(int vendorId, int productId, String productName, String manufacturerName) {
 
         if (Objects.equals(manufacturerName, "Morpho")) {
             return true;

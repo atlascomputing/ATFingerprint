@@ -17,11 +17,11 @@ import android.widget.TextView;
 
 import java.nio.ByteBuffer;
 
-import co.atlascomputing.atfingerprint.wrappers.SecuGenDeviceWrapper;
+import co.atlascomputing.atfingerprint.wrappers.SecuGenScannerWrapper;
 
 public class SecuGenActivity extends AppCompatActivity {
 
-    private SecuGenDeviceWrapper dm = null;
+    private SecuGenScannerWrapper dm = null;
     TextView statusTextView = null;
     ImageView fingerprintImageView = null;
 
@@ -30,7 +30,7 @@ public class SecuGenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secu_gen);
-        dm = new SecuGenDeviceWrapper(getApplicationContext());
+        dm = new SecuGenScannerWrapper(getApplicationContext());
 
         statusTextView = (TextView) findViewById(R.id.textView_status);
         fingerprintImageView = (ImageView) findViewById(R.id.imageView_fingerprint);

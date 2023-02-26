@@ -13,19 +13,16 @@ import SecuGen.FDxSDKPro.SGDeviceInfoParam;
 import SecuGen.FDxSDKPro.SGFDxDeviceName;
 import SecuGen.FDxSDKPro.SGFDxErrorCode;
 
-public class SecuGenDeviceWrapper {
+public class SecuGenScannerWrapper {
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
     private JSGFPLib sgfplib;
 
 
     private final Context context;
 
-    public SecuGenDeviceWrapper(Context applicationContext) {
+    public SecuGenScannerWrapper(Context applicationContext) {
         context = applicationContext;
 
-        // init JSGFPLib
-        UsbManager usbManager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
-        sgfplib = new JSGFPLib(context, usbManager);
 
     }
 
@@ -47,6 +44,10 @@ public class SecuGenDeviceWrapper {
     }
 
     public int init() {
+
+        // init JSGFPLib
+        UsbManager usbManager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
+        sgfplib = new JSGFPLib(context, usbManager);
 
         long error = sgfplib.Init(SGFDxDeviceName.SG_DEV_AUTO);
         if (error == SGFDxErrorCode.SGFDX_ERROR_NONE) {
@@ -176,7 +177,7 @@ public class SecuGenDeviceWrapper {
         return -1;
     }
 
-    public static boolean isSupportedDevice(int vendorId, int productId) {
+    public static boolean isSupportedScanner(int vendorId, int productId) {
 
         if (productId == 4096 || productId == 8192 || productId == 8704 || productId == 8890 || productId == 8705 || productId == 8961 || productId == 8707 || productId == 8768 || productId == 8736 || productId == 9056 || productId == 9232 || productId == 9472) {
             return true;

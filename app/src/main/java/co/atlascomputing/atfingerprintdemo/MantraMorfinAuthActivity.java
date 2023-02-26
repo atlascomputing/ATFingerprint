@@ -2,18 +2,16 @@ package co.atlascomputing.atfingerprintdemo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import co.atlascomputing.atfingerprint.wrappers.MantraMorfinAuthDeviceWrapper;
+import co.atlascomputing.atfingerprint.wrappers.MantraMorfinAuthScannerWrapper;
 
 public class MantraMorfinAuthActivity extends AppCompatActivity {
-    private MantraMorfinAuthDeviceWrapper dm = null;
+    private MantraMorfinAuthScannerWrapper dm = null;
     TextView statusTextView = null;
     ImageView fingerprintImageView = null;
 
@@ -22,7 +20,7 @@ public class MantraMorfinAuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mantra_morfin_auth);
 
-        dm = new MantraMorfinAuthDeviceWrapper(getApplicationContext());
+        dm = new MantraMorfinAuthScannerWrapper(getApplicationContext());
 
         statusTextView = (TextView) findViewById(R.id.textView_status);
         fingerprintImageView = (ImageView) findViewById(R.id.imageView_fingerprint);

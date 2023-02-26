@@ -8,11 +8,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import co.atlascomputing.atfingerprint.wrappers.MantraMFS100DeviceWrapper;
+import co.atlascomputing.atfingerprint.wrappers.MantraMFS100ScannerWrapper;
 
 public class MantraMFS100Activity extends AppCompatActivity {
 
-    private MantraMFS100DeviceWrapper dm = null;
+    private MantraMFS100ScannerWrapper dm = null;
     TextView statusTextView = null;
     ImageView fingerprintImageView = null;
 
@@ -22,7 +22,7 @@ public class MantraMFS100Activity extends AppCompatActivity {
         setContentView(R.layout.activity_mantra_mfs100);
 
 
-        dm = new MantraMFS100DeviceWrapper(getApplicationContext());
+        dm = new MantraMFS100ScannerWrapper(getApplicationContext());
 
         statusTextView = (TextView) findViewById(R.id.textView_status);
         fingerprintImageView = (ImageView) findViewById(R.id.imageView_fingerprint);

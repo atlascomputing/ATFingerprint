@@ -1,49 +1,48 @@
 package co.atlascomputing.atfingerprint;
 
 import android.content.Context;
-import android.hardware.usb.UsbManager;
 
 import co.atlascomputing.atfingerprint.dto.DeviceInfo;
 import co.atlascomputing.atfingerprint.dto.DeviceModel;
-import co.atlascomputing.atfingerprint.interfaces.GenericUsbDevice;
-import co.atlascomputing.atfingerprint.wrappers.ChineseFPDeviceWrapper;
-import co.atlascomputing.atfingerprint.wrappers.MantraMFS100DeviceWrapper;
-import co.atlascomputing.atfingerprint.wrappers.MantraMIDAuthDeviceWrapper;
-import co.atlascomputing.atfingerprint.wrappers.MantraMorfinAuthDeviceWrapper;
-import co.atlascomputing.atfingerprint.wrappers.MorphoSmartDeviceWrapper;
-import co.atlascomputing.atfingerprint.wrappers.SecuGenDeviceWrapper;
+import co.atlascomputing.atfingerprint.interfaces.GenericUsbScanner;
+import co.atlascomputing.atfingerprint.wrappers.ChineseFPScannerWrapper;
+import co.atlascomputing.atfingerprint.wrappers.MantraMFS100ScannerWrapper;
+import co.atlascomputing.atfingerprint.wrappers.MantraMIDAuthScannerWrapper;
+import co.atlascomputing.atfingerprint.wrappers.MantraMorfinAuthScannerWrapper;
+import co.atlascomputing.atfingerprint.wrappers.MorphoSmartScannerWrapper;
+import co.atlascomputing.atfingerprint.wrappers.SecuGenScannerWrapper;
 
-public class FingerprintLib implements GenericUsbDevice {
+public class FingerprintLib implements GenericUsbScanner {
     private static final int INFINITY_TIMEOUT = Integer.MAX_VALUE;
     private final Context context;
 
-    // device wrappers
-    private final MantraMFS100DeviceWrapper mantraMFS100DeviceWrapper;
-    private final MantraMIDAuthDeviceWrapper mantraMIDAuthDeviceWrapper;
-    private final MantraMorfinAuthDeviceWrapper mantraMorfinAuthDeviceWrapper;
-    private final SecuGenDeviceWrapper secuGenDeviceWrapper;
-    private final MorphoSmartDeviceWrapper morphoSmartDeviceWrapper;
-    private final ChineseFPDeviceWrapper chineseFPDeviceWrapper;
+    // scanner wrappers
+    private final MantraMFS100ScannerWrapper mantraMFS100ScannerWrapper;
+    private final MantraMIDAuthScannerWrapper mantraMIDAuthScannerWrapper;
+    private final MantraMorfinAuthScannerWrapper mantraMorfinAuthScannerWrapper;
+    private final SecuGenScannerWrapper secuGenScannerWrapper;
+    private final MorphoSmartScannerWrapper morphoSmartScannerWrapper;
+    private final ChineseFPScannerWrapper chineseFPScannerWrapper;
 
     public FingerprintLib(Context applicationContext) {
         context = applicationContext;
 
-        mantraMFS100DeviceWrapper = new MantraMFS100DeviceWrapper(context);
-        mantraMIDAuthDeviceWrapper = new MantraMIDAuthDeviceWrapper(context);
-        mantraMorfinAuthDeviceWrapper = new MantraMorfinAuthDeviceWrapper(context);
-        secuGenDeviceWrapper = new SecuGenDeviceWrapper(context);
-        morphoSmartDeviceWrapper = new MorphoSmartDeviceWrapper(context);
-        chineseFPDeviceWrapper = new ChineseFPDeviceWrapper(context);
+        mantraMFS100ScannerWrapper = new MantraMFS100ScannerWrapper(context);
+        mantraMIDAuthScannerWrapper = new MantraMIDAuthScannerWrapper(context);
+        mantraMorfinAuthScannerWrapper = new MantraMorfinAuthScannerWrapper(context);
+        secuGenScannerWrapper = new SecuGenScannerWrapper(context);
+        morphoSmartScannerWrapper = new MorphoSmartScannerWrapper(context);
+        chineseFPScannerWrapper = new ChineseFPScannerWrapper(context);
     }
 
     @Override
-    public boolean isSupportedDevice(int vendorId, int productId, String productName, String manufacturerName) {
-        return MantraMFS100DeviceWrapper.isSupportedDevice(vendorId, productId) ||
-                MantraMIDAuthDeviceWrapper.isSupportedDevice(vendorId, productId) ||
-                MantraMorfinAuthDeviceWrapper.isSupportedDevice(vendorId, productId) ||
-                SecuGenDeviceWrapper.isSupportedDevice(vendorId, productId) ||
-                MorphoSmartDeviceWrapper.isSupportedDevice(vendorId, productId, productName, manufacturerName) ||   // morpho isSupported not implemented
-                ChineseFPDeviceWrapper.isSupportedDevice(vendorId, productId);
+    public boolean isSupportedScanner(int vendorId, int productId, String productName, String manufacturerName) {
+        return MantraMFS100ScannerWrapper.isSupportedScanner(vendorId, productId) ||
+                MantraMIDAuthScannerWrapper.isSupportedScanner(vendorId, productId) ||
+                MantraMorfinAuthScannerWrapper.isSupportedScanner(vendorId, productId) ||
+                SecuGenScannerWrapper.isSupportedScanner(vendorId, productId) ||
+                MorphoSmartScannerWrapper.isSupportedScanner(vendorId, productId, productName, manufacturerName) ||   // morpho isSupported not implemented
+                ChineseFPScannerWrapper.isSupportedScanner(vendorId, productId);
     }
 
     @Override
@@ -54,35 +53,35 @@ public class FingerprintLib implements GenericUsbDevice {
         String productName = inDeviceModel.getProductName();
         String manufacturerName = inDeviceModel.getManufacturerName();
 
-        boolean isMantraMFS100 = MantraMFS100DeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isMantraMIDAuth = MantraMIDAuthDeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isMantraMorfinAuth = MantraMorfinAuthDeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isSecuGen = SecuGenDeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isMorphoSmart = MorphoSmartDeviceWrapper.isSupportedDevice(vendorId, productId, productName, manufacturerName);
-        boolean isChineseFP = ChineseFPDeviceWrapper.isSupportedDevice(vendorId, productId);
+        boolean isMantraMFS100 = MantraMFS100ScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isMantraMIDAuth = MantraMIDAuthScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isMantraMorfinAuth = MantraMorfinAuthScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isSecuGen = SecuGenScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isMorphoSmart = MorphoSmartScannerWrapper.isSupportedScanner(vendorId, productId, productName, manufacturerName);
+        boolean isChineseFP = ChineseFPScannerWrapper.isSupportedScanner(vendorId, productId);
 
         if (isMantraMFS100) {
-            return mantraMFS100DeviceWrapper.init(inClientKey);
+            return mantraMFS100ScannerWrapper.init(inClientKey);
         }
 
         if (isMantraMIDAuth) {
-            return mantraMIDAuthDeviceWrapper.init();
+            return mantraMIDAuthScannerWrapper.init();
         }
 
         if (isMantraMorfinAuth) {
-            return mantraMorfinAuthDeviceWrapper.init(inClientKey);
+            return mantraMorfinAuthScannerWrapper.init(inClientKey);
         }
 
         if (isSecuGen) {
-            return secuGenDeviceWrapper.init();
+            return secuGenScannerWrapper.init();
         }
 
         if (isMorphoSmart) {
-            return morphoSmartDeviceWrapper.init(inClientKey);
+            return morphoSmartScannerWrapper.init(inClientKey);
         }
 
         if (isChineseFP) {
-            return chineseFPDeviceWrapper.init();
+            return chineseFPScannerWrapper.init();
         }
 
         return -1;
@@ -96,35 +95,35 @@ public class FingerprintLib implements GenericUsbDevice {
         String productName = inDeviceModel.getProductName();
         String manufacturerName = inDeviceModel.getManufacturerName();
 
-        boolean isMantraMFS100 = MantraMFS100DeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isMantraMIDAuth = MantraMIDAuthDeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isMantraMorfinAuth = MantraMorfinAuthDeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isSecuGen = SecuGenDeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isMorphoSmart = MorphoSmartDeviceWrapper.isSupportedDevice(vendorId, productId, productName, manufacturerName);
-        boolean isChineseFP = ChineseFPDeviceWrapper.isSupportedDevice(vendorId, productId);
+        boolean isMantraMFS100 = MantraMFS100ScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isMantraMIDAuth = MantraMIDAuthScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isMantraMorfinAuth = MantraMorfinAuthScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isSecuGen = SecuGenScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isMorphoSmart = MorphoSmartScannerWrapper.isSupportedScanner(vendorId, productId, productName, manufacturerName);
+        boolean isChineseFP = ChineseFPScannerWrapper.isSupportedScanner(vendorId, productId);
 
         // cap minQuatilty to between 0 and 100
         int tmpMinQuality = minQuality >= 0 ? minQuality : 50; //negative
         tmpMinQuality = tmpMinQuality > 100 ? 50 : tmpMinQuality; // above 100
 
         if (isMantraMFS100) {
-            byte[] captureImage = mantraMFS100DeviceWrapper.captureImage(timeout, false);
+            byte[] captureImage = mantraMFS100ScannerWrapper.captureImage(timeout, false);
             return 0;
         }
 
         if (isMantraMIDAuth) {
-            byte[] captureImage = mantraMIDAuthDeviceWrapper.captureImage(timeout, tmpMinQuality);
+            byte[] captureImage = mantraMIDAuthScannerWrapper.captureImage(timeout, tmpMinQuality);
             return 0;
         }
 
         if (isMantraMorfinAuth) {
-            byte[] captureImage = mantraMorfinAuthDeviceWrapper.captureImage(timeout, tmpMinQuality);
+            byte[] captureImage = mantraMorfinAuthScannerWrapper.captureImage(timeout, tmpMinQuality);
             return 0;
         }
 
         if (isSecuGen) {
             int tmpTimeout = timeout == 0 ? INFINITY_TIMEOUT : timeout;
-            byte[] captureImage = secuGenDeviceWrapper.captureImage(tmpTimeout, tmpMinQuality);
+            byte[] captureImage = secuGenScannerWrapper.captureImage(tmpTimeout, tmpMinQuality);
             return 0;
         }
 
@@ -143,35 +142,35 @@ public class FingerprintLib implements GenericUsbDevice {
         String productName = inDeviceModel.getProductName();
         String manufacturerName = inDeviceModel.getManufacturerName();
 
-        boolean isMantraMFS100 = MantraMFS100DeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isMantraMIDAuth = MantraMIDAuthDeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isMantraMorfinAuth = MantraMorfinAuthDeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isSecuGen = SecuGenDeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isMorphoSmart = MorphoSmartDeviceWrapper.isSupportedDevice(vendorId, productId, productName, manufacturerName);
-        boolean isChineseFP = ChineseFPDeviceWrapper.isSupportedDevice(vendorId, productId);
+        boolean isMantraMFS100 = MantraMFS100ScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isMantraMIDAuth = MantraMIDAuthScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isMantraMorfinAuth = MantraMorfinAuthScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isSecuGen = SecuGenScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isMorphoSmart = MorphoSmartScannerWrapper.isSupportedScanner(vendorId, productId, productName, manufacturerName);
+        boolean isChineseFP = ChineseFPScannerWrapper.isSupportedScanner(vendorId, productId);
 
         if (isMantraMFS100) {
-            return mantraMFS100DeviceWrapper.closeDevice();
+            return mantraMFS100ScannerWrapper.closeDevice();
         }
 
         if (isMantraMIDAuth) {
-            return mantraMIDAuthDeviceWrapper.closeDevice();
+            return mantraMIDAuthScannerWrapper.closeDevice();
         }
 
         if (isMantraMorfinAuth) {
-            return mantraMorfinAuthDeviceWrapper.closeDevice();
+            return mantraMorfinAuthScannerWrapper.closeDevice();
         }
 
         if (isMorphoSmart) {
-            return morphoSmartDeviceWrapper.closeDevice();
+            return morphoSmartScannerWrapper.closeDevice();
         }
 
         if (isSecuGen) {
-            return secuGenDeviceWrapper.closeDevice();
+            return secuGenScannerWrapper.closeDevice();
         }
 
         if (isChineseFP) {
-            return chineseFPDeviceWrapper.closeDevice();
+            return chineseFPScannerWrapper.closeDevice();
         }
 
         return -1;
@@ -184,35 +183,35 @@ public class FingerprintLib implements GenericUsbDevice {
         String productName = inDeviceModel.getProductName();
         String manufacturerName = inDeviceModel.getManufacturerName();
 
-        boolean isMantraMFS100 = MantraMFS100DeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isMantraMIDAuth = MantraMIDAuthDeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isMantraMorfinAuth = MantraMorfinAuthDeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isSecuGen = SecuGenDeviceWrapper.isSupportedDevice(vendorId, productId);
-        boolean isMorphoSmart = MorphoSmartDeviceWrapper.isSupportedDevice(vendorId, productId, productName, manufacturerName);
-        boolean isChineseFP = ChineseFPDeviceWrapper.isSupportedDevice(vendorId, productId);
+        boolean isMantraMFS100 = MantraMFS100ScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isMantraMIDAuth = MantraMIDAuthScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isMantraMorfinAuth = MantraMorfinAuthScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isSecuGen = SecuGenScannerWrapper.isSupportedScanner(vendorId, productId);
+        boolean isMorphoSmart = MorphoSmartScannerWrapper.isSupportedScanner(vendorId, productId, productName, manufacturerName);
+        boolean isChineseFP = ChineseFPScannerWrapper.isSupportedScanner(vendorId, productId);
 
         if (isMantraMFS100) {
-            return mantraMFS100DeviceWrapper.close();
+            return mantraMFS100ScannerWrapper.close();
         }
 
         if (isMantraMIDAuth) {
-            return mantraMIDAuthDeviceWrapper.close();
+            return mantraMIDAuthScannerWrapper.close();
         }
 
         if (isMantraMorfinAuth) {
-            return mantraMorfinAuthDeviceWrapper.close();
+            return mantraMorfinAuthScannerWrapper.close();
         }
 
         if (isMorphoSmart) {
-            return morphoSmartDeviceWrapper.close();
+            return morphoSmartScannerWrapper.close();
         }
 
         if (isSecuGen) {
-            return secuGenDeviceWrapper.close();
+            return secuGenScannerWrapper.close();
         }
 
         if (isChineseFP) {
-            return chineseFPDeviceWrapper.close();
+            return chineseFPScannerWrapper.close();
         }
 
         return -1;
