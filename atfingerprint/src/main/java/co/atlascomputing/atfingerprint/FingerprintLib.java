@@ -28,12 +28,12 @@ public class FingerprintLib implements GenericUsbDevice {
     public FingerprintLib(Context applicationContext) {
         context = applicationContext;
 
-        mantraMFS100DeviceWrapper = new MantraMFS100DeviceWrapper();
-        mantraMIDAuthDeviceWrapper = new MantraMIDAuthDeviceWrapper();
-        mantraMorfinAuthDeviceWrapper = new MantraMorfinAuthDeviceWrapper();
-        secuGenDeviceWrapper = new SecuGenDeviceWrapper();
-        morphoSmartDeviceWrapper = new MorphoSmartDeviceWrapper();
-        chineseFPDeviceWrapper = new ChineseFPDeviceWrapper();
+        mantraMFS100DeviceWrapper = new MantraMFS100DeviceWrapper(context);
+        mantraMIDAuthDeviceWrapper = new MantraMIDAuthDeviceWrapper(context);
+        mantraMorfinAuthDeviceWrapper = new MantraMorfinAuthDeviceWrapper(context);
+        secuGenDeviceWrapper = new SecuGenDeviceWrapper(context);
+        morphoSmartDeviceWrapper = new MorphoSmartDeviceWrapper(context);
+        chineseFPDeviceWrapper = new ChineseFPDeviceWrapper(context);
     }
 
     @Override
@@ -62,27 +62,27 @@ public class FingerprintLib implements GenericUsbDevice {
         boolean isChineseFP = ChineseFPDeviceWrapper.isSupportedDevice(vendorId, productId);
 
         if (isMantraMFS100) {
-            return mantraMFS100DeviceWrapper.init(context, null);
+            return mantraMFS100DeviceWrapper.init(inClientKey);
         }
 
         if (isMantraMIDAuth) {
-            return mantraMIDAuthDeviceWrapper.init(context);
+            return mantraMIDAuthDeviceWrapper.init();
         }
 
         if (isMantraMorfinAuth) {
-            return mantraMorfinAuthDeviceWrapper.init(context, null);
+            return mantraMorfinAuthDeviceWrapper.init(inClientKey);
         }
 
         if (isSecuGen) {
-            return secuGenDeviceWrapper.init(context, null);
+            return secuGenDeviceWrapper.init();
         }
 
         if (isMorphoSmart) {
-            return morphoSmartDeviceWrapper.init(context, null);
+            return morphoSmartDeviceWrapper.init(inClientKey);
         }
 
         if (isChineseFP) {
-            return chineseFPDeviceWrapper.init(context, null);
+            return chineseFPDeviceWrapper.init();
         }
 
         return -1;

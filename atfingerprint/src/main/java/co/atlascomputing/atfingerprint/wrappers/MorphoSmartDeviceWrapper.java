@@ -29,7 +29,15 @@ public class MorphoSmartDeviceWrapper {
     private MorphoDevice morphoDevice;
     private String sensorName;
 
-    public int init(Context context, String clientKey) {
+    private final Context context;
+
+    public MorphoSmartDeviceWrapper(Context applicationContext) {
+        context = applicationContext;
+
+
+    }
+
+    public int init(byte[] clientKey) {
 
         int ret = USBManager.getInstance().initialize(context, ACTION_USB_PERMISSION);
         Log.d("AT", "MorphoDevice initialize result: " + ret);

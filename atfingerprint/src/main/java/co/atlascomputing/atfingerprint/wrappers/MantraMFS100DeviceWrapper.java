@@ -16,28 +16,32 @@ public class MantraMFS100DeviceWrapper {
 
     private MFS100EventHandler eventHandler;
 
-    // Init for mfs100 is using callbacks, call init on OnDeviceAttached,
-    public int init(Context context, String clientKey) {
-        Log.d("AT", "creating mfs100");
+    private final Context context;
 
-        this.eventHandler = new MFS100EventHandler();
+    public MantraMFS100DeviceWrapper(Context applicationContext) {
+        context = applicationContext;
 
-        mfs100 = new MFS100(this.eventHandler);
+
+        // init MFS100
+        eventHandler = new MFS100EventHandler();
+        mfs100 = new MFS100(eventHandler);
         mfs100.SetApplicationContext(context);
+    }
 
-        Log.d("AT", "created mfs100");
+    // Init for mfs100 is using callbacks, call init on OnDeviceAttached,
+    public int init(byte[] clientKey) {
 
         int error = -1;
-//        if (clientKey == null || clientKey.isEmpty()) {
-//            Log.d("AT", "init no key");
-//            error = mfs100.Init();
-//        } else {
-//            Log.d("AT", "init with key");
-//            error = mfs100.Init( clientKey);
-//        }
-//
-//        Log.d("AT", "init response: " + error);
-//
+        if (clientKey == null || clientKey.length == 0) {
+            Log.d("AT", "init no key");
+            error = mfs100.Init();
+        } else {
+            Log.d("AT", "init with key");
+            error = mfs100.Init(clientKey);
+        }
+
+        Log.d("AT", "init response: " + error);
+
         //success
         if (error == 0) {
             deviceInfo = mfs100.GetDeviceInfo();

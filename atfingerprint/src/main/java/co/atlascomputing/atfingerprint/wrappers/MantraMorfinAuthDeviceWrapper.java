@@ -1,6 +1,7 @@
 package co.atlascomputing.atfingerprint.wrappers;
 
 import android.content.Context;
+import android.util.Base64;
 import android.util.Log;
 
 import com.mantra.morfinauth.DeviceInfo;
@@ -14,19 +15,27 @@ public class MantraMorfinAuthDeviceWrapper {
     private MorfinAuth morfinAuth;
     DeviceInfo deviceInfo;
 
-    public int init(Context context, String clientKey) {
-        Log.d("AT", "creating MorfinAuth");
+    private final Context context;
+
+    public MantraMorfinAuthDeviceWrapper(Context applicationContext) {
+        context = applicationContext;
+
+        // init MIDAuth
         morfinAuth = new MorfinAuth(context, null);
-        Log.d("AT", "created MorfinAuth");
+
+    }
+
+    public int init(byte[] clientKey) {
 
         deviceInfo = new com.mantra.morfinauth.DeviceInfo();
         int error = -1;
-        if (clientKey == null || clientKey.isEmpty()) {
+        if (clientKey == null || clientKey.length == 0) {
             Log.d("AT", "init no key");
             error = morfinAuth.Init(DeviceModel.MFS500, deviceInfo);
         } else {
             Log.d("AT", "init with key");
-            error = morfinAuth.Init(DeviceModel.MFS500, clientKey, deviceInfo);
+            // clientKey is a base64 encoded string
+            error = morfinAuth.Init(DeviceModel.MFS500, Base64.encodeToString(clientKey, 0), deviceInfo);
         }
 
         Log.d("AT", "init response: " + error);

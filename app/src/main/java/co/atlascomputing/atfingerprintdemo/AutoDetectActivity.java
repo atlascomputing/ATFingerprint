@@ -230,14 +230,62 @@ public class AutoDetectActivity extends AppCompatActivity {
     public void initializeConnectedDevice(UsbDevice device) {
         Log.d("AT", "Initializing connected device:  " + device.getProductName());
 
-        deviceInfo = new DeviceInfo();
-        deviceModel = new DeviceModel(device.getVendorId(), device.getProductId(), device.getProductName(), device.getManufacturerName());
-        fingerprintLib.init(deviceModel, null, deviceInfo);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                deviceInfo = new DeviceInfo();
+                deviceModel = new DeviceModel(device.getVendorId(), device.getProductId(), device.getProductName(), device.getManufacturerName());
+                int result = fingerprintLib.init(deviceModel, null, deviceInfo);
+
+                Log.d("AT", "initializeConnectedDevice:  status: " + result);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (result == 0) {
+                            statusTextView.setText("init success");
+                            return;
+                        }
+                        statusTextView.setText("init failed");
+
+                    }
+                });
+
+
+            }
+        }).start();
+
+
     }
 
     public void closeConnectedDevice(UsbDevice device) {
-//        DeviceModel dModel = new DeviceModel(device.getVendorId(), device.getProductId(), device.getProductName(), device.getManufacturerName());
-//        fingerprintLib.closeDevice(closeDevice);
+
+        Log.d("AT", "closeConnectedDevice device:  " + device.getProductName());
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DeviceModel dModel = new DeviceModel(device.getVendorId(), device.getProductId(), device.getProductName(), device.getManufacturerName());
+                int result = fingerprintLib.closeDevice(dModel);
+                Log.d("AT", "closeConnectedDevice:  status: " + result);
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (result == 0) {
+                            statusTextView.setText("close success");
+                            return;
+                        }
+                        statusTextView.setText("close failed");
+                    }
+                });
+
+            }
+        }).start();
+
+
     }
 
 }

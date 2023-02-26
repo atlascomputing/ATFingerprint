@@ -14,10 +14,17 @@ public class MantraMIDAuthDeviceWrapper {
     private MIDFingerAuth midFingerAuth;
     DeviceInfo deviceInfo;
 
-    public int init(Context context) {
-        Log.d("AT", "creating MorfinAuth");
+    private final Context context;
+
+    public MantraMIDAuthDeviceWrapper(Context applicationContext) {
+        context = applicationContext;
+
+        // init MIDAuth
         midFingerAuth = new MIDFingerAuth(context, null);
-        Log.d("AT", "created MorfinAuth");
+
+    }
+
+    public int init() {
 
         deviceInfo = new com.mantra.midfingerauth.DeviceInfo();
         int error = -1;

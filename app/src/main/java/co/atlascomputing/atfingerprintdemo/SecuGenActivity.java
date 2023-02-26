@@ -17,11 +17,11 @@ import android.widget.TextView;
 
 import java.nio.ByteBuffer;
 
-import co.atlascomputing.atfingerprint.DummyDevice;
+import co.atlascomputing.atfingerprint.wrappers.SecuGenDeviceWrapper;
 
 public class SecuGenActivity extends AppCompatActivity {
 
-    private DummyDevice dm = null;
+    private SecuGenDeviceWrapper dm = null;
     TextView statusTextView = null;
     ImageView fingerprintImageView = null;
 
@@ -30,7 +30,7 @@ public class SecuGenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secu_gen);
-        dm = new DummyDevice();
+        dm = new SecuGenDeviceWrapper(getApplicationContext());
 
         statusTextView = (TextView) findViewById(R.id.textView_status);
         fingerprintImageView = (ImageView) findViewById(R.id.imageView_fingerprint);
@@ -44,7 +44,7 @@ public class SecuGenActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        int success = dm.init(SecuGenActivity.this, (UsbManager) getSystemService(Context.USB_SERVICE));
+                        int success = dm.init();
 
                         // update UI
                         runOnUiThread(new Runnable() {

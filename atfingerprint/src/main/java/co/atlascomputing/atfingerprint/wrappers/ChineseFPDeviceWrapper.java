@@ -9,10 +9,19 @@ import com.fpreader.fpdevice.UsbReader;
 public class ChineseFPDeviceWrapper {
     private UsbReader fpModule;
 
+    private final Context context;
 
-    public int init(Context context, UsbManager usbManager) {
+    public ChineseFPDeviceWrapper(Context applicationContext) {
+        context = applicationContext;
 
+        // init fpModule
         fpModule = new UsbReader();
+
+    }
+
+
+    public int init() {
+
         fpModule.InitMatch();
 //        fpModule.SetContextHandler(this,mHandler);
 

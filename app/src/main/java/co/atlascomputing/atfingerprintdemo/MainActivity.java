@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import co.atlascomputing.atfingerprint.DummyDevice;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override

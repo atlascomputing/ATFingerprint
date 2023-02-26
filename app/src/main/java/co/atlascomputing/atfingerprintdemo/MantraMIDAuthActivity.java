@@ -19,7 +19,7 @@ public class MantraMIDAuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mantra_midauth);
 
-        dm = new MantraMIDAuthDeviceWrapper();
+        dm = new MantraMIDAuthDeviceWrapper(getApplicationContext());
 
         statusTextView = (TextView) findViewById(R.id.textView_status);
         fingerprintImageView = (ImageView) findViewById(R.id.imageView_fingerprint);
@@ -35,7 +35,7 @@ public class MantraMIDAuthActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        int success = dm.init(MantraMIDAuthActivity.this);
+                        int success = dm.init();
 
                         // update UI
                         runOnUiThread(new Runnable() {

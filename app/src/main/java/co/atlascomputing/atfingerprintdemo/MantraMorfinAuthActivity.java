@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import co.atlascomputing.atfingerprint.DummyDevice;
 import co.atlascomputing.atfingerprint.wrappers.MantraMorfinAuthDeviceWrapper;
 
 public class MantraMorfinAuthActivity extends AppCompatActivity {
@@ -23,7 +22,7 @@ public class MantraMorfinAuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mantra_morfin_auth);
 
-        dm = new MantraMorfinAuthDeviceWrapper();
+        dm = new MantraMorfinAuthDeviceWrapper(getApplicationContext());
 
         statusTextView = (TextView) findViewById(R.id.textView_status);
         fingerprintImageView = (ImageView) findViewById(R.id.imageView_fingerprint);
@@ -37,7 +36,7 @@ public class MantraMorfinAuthActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        int success = dm.init(MantraMorfinAuthActivity.this, null);
+                        int success = dm.init(null);
 
                         // update UI
                         runOnUiThread(new Runnable() {

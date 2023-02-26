@@ -17,6 +17,18 @@ public class SecuGenDeviceWrapper {
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
     private JSGFPLib sgfplib;
 
+
+    private final Context context;
+
+    public SecuGenDeviceWrapper(Context applicationContext) {
+        context = applicationContext;
+
+        // init JSGFPLib
+        UsbManager usbManager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
+        sgfplib = new JSGFPLib(context, usbManager);
+
+    }
+
     private void requestUsbPermission(Context context) {
         UsbDevice usbDevice = sgfplib.GetUsbDevice();
         boolean hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
@@ -34,10 +46,7 @@ public class SecuGenDeviceWrapper {
         }
     }
 
-    public int init(Context context, UsbManager usbManager) {
-
-
-        sgfplib = new JSGFPLib(context, usbManager);
+    public int init() {
 
         long error = sgfplib.Init(SGFDxDeviceName.SG_DEV_AUTO);
         if (error == SGFDxErrorCode.SGFDX_ERROR_NONE) {

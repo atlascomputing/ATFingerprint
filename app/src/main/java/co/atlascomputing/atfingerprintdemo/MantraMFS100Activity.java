@@ -22,7 +22,7 @@ public class MantraMFS100Activity extends AppCompatActivity {
         setContentView(R.layout.activity_mantra_mfs100);
 
 
-        dm = new MantraMFS100DeviceWrapper();
+        dm = new MantraMFS100DeviceWrapper(getApplicationContext());
 
         statusTextView = (TextView) findViewById(R.id.textView_status);
         fingerprintImageView = (ImageView) findViewById(R.id.imageView_fingerprint);
@@ -36,7 +36,7 @@ public class MantraMFS100Activity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        int success = dm.init(MantraMFS100Activity.this, null);
+                        int success = dm.init(null);
 
                         // update UI
                         runOnUiThread(new Runnable() {

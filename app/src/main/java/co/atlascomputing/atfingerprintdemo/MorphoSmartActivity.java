@@ -23,7 +23,7 @@ public class MorphoSmartActivity extends AppCompatActivity implements Observer {
         setContentView(R.layout.activity_morpho_smart);
 
 
-        dm = new MorphoSmartDeviceWrapper();
+        dm = new MorphoSmartDeviceWrapper(getApplicationContext());
 
         statusTextView = (TextView) findViewById(R.id.textView_status);
         fingerprintImageView = (ImageView) findViewById(R.id.imageView_fingerprint);
@@ -37,7 +37,7 @@ public class MorphoSmartActivity extends AppCompatActivity implements Observer {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        int success = dm.init(MorphoSmartActivity.this.getApplicationContext(), null);
+                        int success = dm.init(null);
 
                         // update UI
                         runOnUiThread(new Runnable() {
