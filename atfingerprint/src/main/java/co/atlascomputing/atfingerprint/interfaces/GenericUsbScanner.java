@@ -20,7 +20,7 @@ public interface GenericUsbScanner {
 
 
     // start catprue from specific device model
-    public int startCapture(DeviceModel inDeviceModel, int timeout, int minQuality);
+    public byte[] startCapture(DeviceModel inDeviceModel, int timeout, int minQuality);
     public int closeDevice(DeviceModel inDeviceModel);
     public int close(DeviceModel inDeviceModel);
 }

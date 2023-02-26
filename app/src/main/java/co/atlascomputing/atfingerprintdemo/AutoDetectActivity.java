@@ -59,12 +59,12 @@ public class AutoDetectActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 //                        byte[] rawData = fingerprintLib.startCapture(deviceModel);
-                        byte[] rawData = null;
+//                        byte[] rawData = null;
 //                        int timeout = 0;
 //                        int minQuality = 50;
                         int timeout = 100000000; // in milliseconds
                         int minQuality = 40;
-                        fingerprintLib.startCapture(deviceModel, timeout, minQuality);
+                        byte[] rawData = fingerprintLib.startCapture(deviceModel, timeout, minQuality);
 
                         // update UI
                         runOnUiThread(new Runnable() {

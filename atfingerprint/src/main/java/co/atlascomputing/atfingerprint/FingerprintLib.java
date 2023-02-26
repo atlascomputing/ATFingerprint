@@ -73,7 +73,8 @@ public class FingerprintLib implements GenericUsbScanner {
         }
 
         if (isSecuGen) {
-            return secuGenScannerWrapper.init();
+            secuGenScannerWrapper.init();
+            return secuGenScannerWrapper.openDevice(0);
         }
 
         if (isMorphoSmart) {
@@ -81,14 +82,15 @@ public class FingerprintLib implements GenericUsbScanner {
         }
 
         if (isChineseFP) {
-            return chineseFPScannerWrapper.init();
+            chineseFPScannerWrapper.init();
+            return chineseFPScannerWrapper.openDevice();
         }
 
         return -1;
     }
 
     @Override
-    public int startCapture(DeviceModel inDeviceModel, int timeout, int minQuality) {
+    public byte[] startCapture(DeviceModel inDeviceModel, int timeout, int minQuality) {
 
         int vendorId = inDeviceModel.getVendorId();
         int productId = inDeviceModel.getProductId();
@@ -108,23 +110,23 @@ public class FingerprintLib implements GenericUsbScanner {
 
         if (isMantraMFS100) {
             byte[] captureImage = mantraMFS100ScannerWrapper.captureImage(timeout, false);
-            return 0;
+            return captureImage;
         }
 
         if (isMantraMIDAuth) {
             byte[] captureImage = mantraMIDAuthScannerWrapper.captureImage(timeout, tmpMinQuality);
-            return 0;
+            return captureImage;
         }
 
         if (isMantraMorfinAuth) {
             byte[] captureImage = mantraMorfinAuthScannerWrapper.captureImage(timeout, tmpMinQuality);
-            return 0;
+            return captureImage;
         }
 
         if (isSecuGen) {
             int tmpTimeout = timeout == 0 ? INFINITY_TIMEOUT : timeout;
             byte[] captureImage = secuGenScannerWrapper.captureImage(tmpTimeout, tmpMinQuality);
-            return 0;
+            return captureImage;
         }
 
 //        if (isChineseFP){
@@ -132,7 +134,7 @@ public class FingerprintLib implements GenericUsbScanner {
 //        }
 
 
-        return -1;
+        return null;
     }
 
     @Override
