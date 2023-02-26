@@ -60,6 +60,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        final Button fpBtn = (Button) findViewById(R.id.btn_fp);
+        fpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ChineseFPActivity.class));
+            }
+        });
+
 
         final Button autoDetectBtn = (Button) findViewById(R.id.btn_auto_detect);
         autoDetectBtn.setOnClickListener(new View.OnClickListener() {
