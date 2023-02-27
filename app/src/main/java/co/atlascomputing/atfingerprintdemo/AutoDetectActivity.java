@@ -64,7 +64,7 @@ public class AutoDetectActivity extends AppCompatActivity {
 //                        int minQuality = 50;
                         int timeout = 100000000; // in milliseconds
                         int minQuality = 40;
-                        byte[] rawData = fingerprintLib.startCapture(deviceModel, timeout, minQuality);
+                        byte[] rawData = fingerprintLib.captureImage(deviceModel, timeout, minQuality);
 
                         // update UI
                         runOnUiThread(new Runnable() {

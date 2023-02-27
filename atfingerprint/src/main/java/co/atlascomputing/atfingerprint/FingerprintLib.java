@@ -90,7 +90,7 @@ public class FingerprintLib implements GenericUsbScanner {
     }
 
     @Override
-    public byte[] startCapture(DeviceModel inDeviceModel, int timeout, int minQuality) {
+    public byte[] captureImage(DeviceModel inDeviceModel, int timeout, int minQuality) {
 
         int vendorId = inDeviceModel.getVendorId();
         int productId = inDeviceModel.getProductId();
