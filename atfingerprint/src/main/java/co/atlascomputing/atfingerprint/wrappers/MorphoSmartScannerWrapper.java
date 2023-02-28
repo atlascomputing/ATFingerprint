@@ -121,10 +121,6 @@ public class MorphoSmartScannerWrapper {
     }
 
     public int closeDevice() {
-        return -1;
-    }
-
-    public int close() {
         if (morphoDevice == null) {
             Log.d("ATFingerprint", "Attempt to close un-initialized device");
             return -1;
@@ -145,6 +141,10 @@ public class MorphoSmartScannerWrapper {
         }
 
         return -1;
+    }
+
+    public int close() {
+        return closeDevice();
     }
 
     public static boolean isSupportedScanner(int vendorId, int productId, String productName, String manufacturerName) {
