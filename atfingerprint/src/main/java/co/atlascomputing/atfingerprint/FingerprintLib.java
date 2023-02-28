@@ -104,7 +104,7 @@ public class FingerprintLib implements GenericUsbScanner {
         boolean isMorphoSmart = MorphoSmartScannerWrapper.isSupportedScanner(vendorId, productId, productName, manufacturerName);
         boolean isChineseFP = ChineseFPScannerWrapper.isSupportedScanner(vendorId, productId);
 
-        // cap minQuatilty to between 0 and 100
+        // cap minQuality to between 0 and 100
         int tmpMinQuality = minQuality >= 0 ? minQuality : 50; //negative
         tmpMinQuality = tmpMinQuality > 100 ? 50 : tmpMinQuality; // above 100
 
@@ -122,6 +122,12 @@ public class FingerprintLib implements GenericUsbScanner {
             byte[] captureImage = mantraMorfinAuthScannerWrapper.captureImage(timeout, tmpMinQuality);
             return captureImage;
         }
+
+        if (isMorphoSmart) {
+            byte[] captureImage = morphoSmartScannerWrapper.captureImage(timeout, tmpMinQuality);
+            return captureImage;
+        }
+
 
         if (isSecuGen) {
             int tmpTimeout = timeout == 0 ? INFINITY_TIMEOUT : timeout;

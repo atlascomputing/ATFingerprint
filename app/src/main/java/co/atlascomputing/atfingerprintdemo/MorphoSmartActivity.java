@@ -13,10 +13,11 @@ import java.util.Observer;
 
 import co.atlascomputing.atfingerprint.wrappers.MorphoSmartScannerWrapper;
 
-public class MorphoSmartActivity extends AppCompatActivity implements Observer {
+public class MorphoSmartActivity extends AppCompatActivity {
     private MorphoSmartScannerWrapper dm = null;
     TextView statusTextView = null;
     ImageView fingerprintImageView = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +65,7 @@ public class MorphoSmartActivity extends AppCompatActivity implements Observer {
                     public void run() {
                         int timeout = 100000000; // in milliseconds
                         int quality = 40;
-                        byte[] rawData = dm.captureImage(timeout, quality,MorphoSmartActivity.this);
+                        byte[] rawData = dm.captureImage(timeout, quality);
 
                         // update UI
                         runOnUiThread(new Runnable() {
@@ -77,7 +78,7 @@ public class MorphoSmartActivity extends AppCompatActivity implements Observer {
                                 }
 
 //                                // TODO: get width and height from GetDeviceInfo, 296,354
-//                                fingerprintImageView.setImageBitmap(MorphoSmartActivity.toGrayscale(rawData, 296, 354));
+                                fingerprintImageView.setImageBitmap(SecuGenActivity.toGrayscale(rawData, 296, 354));
                             }
                         });
                     }
@@ -116,8 +117,4 @@ public class MorphoSmartActivity extends AppCompatActivity implements Observer {
 
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-
-    }
 }

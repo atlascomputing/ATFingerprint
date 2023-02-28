@@ -16,6 +16,7 @@ import com.morpho.morphosmart.sdk.MorphoImageHeader;
 import com.morpho.morphosmart.sdk.StrategyAcquisitionMode;
 
 import java.util.Objects;
+import java.util.Observable;
 import java.util.Observer;
 
 public class MorphoSmartScannerWrapper {
@@ -25,10 +26,12 @@ public class MorphoSmartScannerWrapper {
     private String sensorName;
 
     private final Context context;
+    private Observer observer;
 
     public MorphoSmartScannerWrapper(Context applicationContext) {
         context = applicationContext;
 
+        observer = new ScannerObserver();
 
     }
 
@@ -67,10 +70,10 @@ public class MorphoSmartScannerWrapper {
         return -1;
     }
 
-    public byte[] captureImage(int timeout, int minQuality, final Observer observer) {
+    public byte[] captureImage(int timeout, int minQuality) {
 
-        int timeOut = 20;
-//        int timeOut = timeout / 1000; // change milli seconds to seconds
+//        int timeOut = 20;
+        int timeOut = timeout / 1000; // change milli seconds to seconds
 
         int acquisitionThreshold = 0;
 //        int acquisitionThreshold = minQuality;
@@ -84,10 +87,10 @@ public class MorphoSmartScannerWrapper {
         final MorphoImage morphoImage = new MorphoImage();
 
         MorphoImageHeader tmp = new MorphoImageHeader();
-        tmp.setResX(500);
-        tmp.setResY(500);
-        tmp.setNbRow(500);
-        tmp.setNbColumn(500);
+//        tmp.setResX(500);
+//        tmp.setResY(500);
+//        tmp.setNbRow(500);
+//        tmp.setNbColumn(500);
 
         morphoImage.setMorphoImageHeader(tmp);
 
@@ -194,4 +197,12 @@ public class MorphoSmartScannerWrapper {
     }
 
 
-}
+    private class ScannerObserver implements Observer {
+        @Override
+        public void update(Observable o, Object arg) {
+
+            Log.d("AT", "Observer.update called");
+        }
+    }
+
+    }

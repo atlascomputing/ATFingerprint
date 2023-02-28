@@ -135,7 +135,9 @@ public class SecuGenActivity extends AppCompatActivity {
     }
 
     public static Bitmap toGrayscale(byte[] mImageBuffer, int width, int height) {
-        byte[] Bits = new byte[mImageBuffer.length * 4];
+//        byte[] Bits = new byte[mImageBuffer.length * 4];
+        byte[] Bits = new byte[mImageBuffer.length * 5]; //quick fix for buffer not large enough
+
         for (int i = 0; i < mImageBuffer.length; i++) {
             Bits[i * 4] = Bits[i * 4 + 1] = Bits[i * 4 + 2] = mImageBuffer[i]; // Invert the source bits
             Bits[i * 4 + 3] = -1;// 0xff, that's the alpha.
